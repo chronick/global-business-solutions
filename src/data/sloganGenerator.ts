@@ -1,8 +1,11 @@
 import { subsidiaries, type SloganData } from './content'
 
 // ── Seeded RNG (LCG) ────────────────────────────────────────────────
+// Large prime offset ensures early seeds don't cluster on the same array indices
+const SEED_OFFSET = 48271
+
 function seededRandom(seed: number): () => number {
-  let s = seed + 1
+  let s = seed + SEED_OFFSET
   return () => {
     s = (s * 1103515245 + 12345) & 0x7fffffff
     return s / 0x7fffffff
@@ -29,72 +32,85 @@ function hasRepeatedRoot(text: string): boolean {
 }
 
 // ── Word Banks ───────────────────────────────────────────────────────
+// Arrays are shuffled so no single term dominates early seeds
 
 const VERBS_GERUND = [
-  'Synergizing', 'Leveraging', 'Disrupting', 'Optimizing', 'Scaling',
-  'Pivoting', 'Transforming', 'Accelerating', 'Democratizing', 'Monetizing',
-  'Vertically Integrating', 'Blockchaining', 'Innovating', 'Empowering',
-  'Deploying', 'Architecting', 'Onboarding', 'Streamlining', 'Decentralizing',
-  'Platformizing', 'Containerizing', 'Orchestrating', 'Evangelizing',
-  'Gamifying', 'Tokenizing', 'Upskilling', 'Rightsizing', 'Cloudifying',
-  'Fine-Tuning', 'Prompt-Engineering', 'Embedding', 'Inferencing',
-  'Distilling', 'Vectorizing', 'Hyper-Scaling', 'Cross-Pollinating',
-  'Future-Proofing', 'Sunsetting', 'Ideating', 'Workshopping',
-  'Whiteboarding', 'Blue-Skying', 'Incubating', 'Co-Creating',
-  'Operationalizing', 'Productizing', 'Aligning', 'Benchmarking',
-  'Cascading', 'Socializing', 'Envisioning', 'Re-Imagining',
-  'Unlocking', 'Amplifying', 'Catalyzing', 'Consolidating',
-  'Activating', 'Calibrating', 'Provisioning', 'Normalizing',
+  'Leveraging', 'Orchestrating', 'Disrupting', 'Accelerating', 'Scaling',
+  'Transforming', 'Deploying', 'Optimizing', 'Empowering', 'Monetizing',
+  'Pivoting', 'Architecting', 'Streamlining', 'Democratizing', 'Innovating',
+  'Vertically Integrating', 'Blockchaining', 'Onboarding', 'Decentralizing',
+  'Platformizing', 'Containerizing', 'Evangelizing', 'Gamifying',
+  'Tokenizing', 'Upskilling', 'Rightsizing', 'Cloudifying', 'Fine-Tuning',
+  'Prompt-Engineering', 'Embedding', 'Inferencing', 'Distilling',
+  'Vectorizing', 'Hyper-Scaling', 'Cross-Pollinating', 'Future-Proofing',
+  'Sunsetting', 'Ideating', 'Workshopping', 'Whiteboarding', 'Blue-Skying',
+  'Incubating', 'Co-Creating', 'Operationalizing', 'Productizing',
+  'Aligning', 'Benchmarking', 'Cascading', 'Socializing', 'Envisioning',
+  'Re-Imagining', 'Unlocking', 'Amplifying', 'Catalyzing', 'Consolidating',
+  'Activating', 'Calibrating', 'Provisioning', 'Normalizing', 'Synergizing',
+  'De-Risking', 'Facilitating', 'Prioritizing', 'Onshoring',
+  'Right-Channeling', 'Retaining', 'Engaging', 'Matricizing',
 ] as const
 
 const VERBS_IMPERATIVE = [
-  'Synergize', 'Leverage', 'Disrupt', 'Optimize', 'Scale',
-  'Pivot', 'Transform', 'Accelerate', 'Democratize', 'Monetize',
-  'Innovate', 'Empower', 'Deploy', 'Architect', 'Onboard',
-  'Streamline', 'Decentralize', 'Orchestrate', 'Evangelize',
-  'Gamify', 'Tokenize', 'Upskill', 'Rightsize', 'Cloudify',
-  'Containerize', 'Sunset', 'Ideate', 'Workshop', 'Whiteboard',
-  'Blue-Sky', 'Incubate', 'Co-Create', 'Operationalize',
-  'Productize', 'Align', 'Benchmark', 'Cascade', 'Socialize',
-  'Envision', 'Re-Imagine', 'Unlock', 'Amplify', 'Catalyze',
-  'Consolidate', 'Activate', 'Calibrate', 'Provision', 'Normalize',
-  'Unpack', 'Circle Back', 'Deep Dive', 'Double-Click',
-  'Move The Needle',
+  'Leverage', 'Orchestrate', 'Disrupt', 'Accelerate', 'Scale',
+  'Transform', 'Deploy', 'Optimize', 'Empower', 'Monetize',
+  'Pivot', 'Architect', 'Streamline', 'Democratize', 'Innovate',
+  'Decentralize', 'Evangelize', 'Gamify', 'Tokenize', 'Upskill',
+  'Rightsize', 'Cloudify', 'Containerize', 'Sunset', 'Ideate',
+  'Workshop', 'Whiteboard', 'Blue-Sky', 'Incubate', 'Co-Create',
+  'Operationalize', 'Productize', 'Align', 'Benchmark', 'Cascade',
+  'Socialize', 'Envision', 'Re-Imagine', 'Unlock', 'Amplify',
+  'Catalyze', 'Consolidate', 'Activate', 'Calibrate', 'Provision',
+  'Normalize', 'Unpack', 'Circle Back', 'Deep Dive', 'Double-Click',
+  'Move The Needle', 'Synergize', 'De-Risk', 'Facilitate', 'Prioritize',
+  'Engage', 'Retain', 'Onshore',
 ] as const
 
 const VERBS_PAST = [
-  'Synergized', 'Leveraged', 'Disrupted', 'Optimized', 'Scaled',
-  'Pivoted', 'Transformed', 'Accelerated', 'Democratized', 'Monetized',
-  'Innovated', 'Empowered', 'Deployed', 'Architected', 'Onboarded',
-  'Streamlined', 'Decentralized', 'Orchestrated', 'Evangelized',
-  'Gamified', 'Tokenized', 'Upskilled', 'Rightsized', 'Cloudified',
-  'Containerized', 'Embedded', 'Vectorized', 'Distilled', 'Fine-Tuned',
-  'Incubated', 'Co-Created', 'Operationalized', 'Productized',
-  'Benchmarked', 'Cascaded', 'Socialized', 'Envisioned',
-  'Re-Imagined', 'Unlocked', 'Amplified', 'Consolidated',
-  'Activated', 'Calibrated', 'Provisioned', 'Normalized',
+  'Leveraged', 'Orchestrated', 'Disrupted', 'Accelerated', 'Scaled',
+  'Transformed', 'Deployed', 'Optimized', 'Empowered', 'Monetized',
+  'Pivoted', 'Architected', 'Streamlined', 'Democratized', 'Innovated',
+  'Decentralized', 'Evangelized', 'Gamified', 'Tokenized', 'Upskilled',
+  'Rightsized', 'Cloudified', 'Containerized', 'Embedded', 'Vectorized',
+  'Distilled', 'Fine-Tuned', 'Incubated', 'Co-Created', 'Operationalized',
+  'Productized', 'Benchmarked', 'Cascaded', 'Socialized', 'Envisioned',
+  'Re-Imagined', 'Unlocked', 'Amplified', 'Consolidated', 'Activated',
+  'Calibrated', 'Provisioned', 'Normalized', 'Synergized', 'De-Risked',
+  'Facilitated', 'Prioritized', 'Engaged', 'Retained',
 ] as const
 
 const NOUNS = [
-  'Synergy', 'Paradigm', 'Ecosystem', 'Pipeline', 'Bandwidth',
-  'North Star', 'KPIs', 'OKRs', 'Stakeholders', 'Value Proposition',
-  'Core Competencies', 'Thought Leadership', 'Market Share', 'Supply Chain',
-  'Revenue Streams', 'EBITDA', 'Free Cash Flow', 'Blockchain',
-  'Digital Twin', 'Neural Network', 'Large Language Model', 'RAG Pipeline',
+  'Paradigm', 'Ecosystem', 'Pipeline', 'Bandwidth', 'North Star',
+  'KPIs', 'OKRs', 'Value Proposition', 'Core Competencies',
+  'Thought Leadership', 'Market Share', 'Supply Chain', 'Revenue Streams',
+  'EBITDA', 'Free Cash Flow', 'Blockchain', 'Digital Twin',
+  'Neural Network', 'Large Language Model', 'RAG Pipeline',
   'Agentic Workflows', 'Transformer Architecture', 'Attention Mechanism',
   'Embeddings', 'Inference Engine', 'AI Governance', 'Prompt Templates',
   'Action Items', 'Deliverables', 'Alignment', 'Best Practices',
   'Deep Dive', 'Low-Hanging Fruit', 'Runway', 'Burn Rate',
-  'Growth Hacking', 'Disruption Index', 'Synergy Matrix',
-  'Innovation Funnel', 'Tech Stack', 'Data Lake', 'Cloud Strategy',
-  'Flywheel', 'Moat', 'Headcount', 'Mindshare', 'Swimlane',
-  'Tiger Team', 'Greenfield', 'Brownfield', 'Guardrails', 'Sandbox',
-  'Vertical', 'Horizontal', 'Customer Journey', 'Touchpoint',
-  'Pain Point', 'White Space', 'Blue Ocean', 'Token Budget',
-  'Context Window', 'Vector Database', 'Prompt Chain', 'Latent Space',
-  'Due Diligence', 'Fiscal Responsibility', 'Capital Allocation',
-  'Operating Leverage', 'Unit Economics', 'Total Addressable Market',
-  'Go-To-Market', 'Product-Market Fit', 'Net Promoter Score',
+  'Growth Hacking', 'Disruption Index', 'Innovation Funnel', 'Tech Stack',
+  'Data Lake', 'Cloud Strategy', 'Flywheel', 'Moat', 'Headcount',
+  'Mindshare', 'Swimlane', 'Tiger Team', 'Greenfield', 'Brownfield',
+  'Guardrails', 'Sandbox', 'Vertical', 'Horizontal', 'Customer Journey',
+  'Touchpoint', 'Pain Point', 'White Space', 'Blue Ocean',
+  'Token Budget', 'Context Window', 'Vector Database', 'Prompt Chain',
+  'Latent Space', 'Due Diligence', 'Fiscal Responsibility',
+  'Capital Allocation', 'Operating Leverage', 'Unit Economics',
+  'Total Addressable Market', 'Go-To-Market', 'Product-Market Fit',
+  'Net Promoter Score', 'Synergy',
+  // Stakeholder management
+  'Stakeholders', 'Stakeholder Engagement', 'Stakeholder Matrix',
+  'Stakeholder Buy-In', 'Change Management', 'Executive Sponsorship',
+  'Governance Framework', 'RACI Matrix', 'Escalation Path',
+  'Cross-Functional Alignment', 'Organizational Design',
+  'Talent Pipeline', 'Succession Planning', 'Performance Framework',
+  'Workforce Optimization', 'Employee Engagement', 'Retention Strategy',
+  'Cultural Transformation', 'Leadership Development',
+  'Board Oversight', 'Fiduciary Duty', 'Accountability Framework',
+  'Risk Appetite', 'Compliance Posture', 'Audit Trail',
+  'Materiality Assessment', 'ESG Commitments',
 ] as const
 
 const ADJECTIVES = [
@@ -111,6 +127,10 @@ const ADJECTIVES = [
   'Zero-Downtime', 'Kubernetes-Native', 'GPU-Accelerated',
   'Inference-Optimized', 'Context-Rich', 'Token-Efficient',
   'Client-Facing', 'Results-Oriented', 'Future-Ready',
+  // Stakeholder / governance
+  'Board-Approved', 'Governance-First', 'Risk-Adjusted',
+  'Audit-Ready', 'Fiduciary-Grade', 'ESG-Compliant',
+  'Stakeholder-Centric', 'Change-Ready', 'Culture-Driven',
 ] as const
 
 const SIMPLE_ADJECTIVES = [
@@ -122,13 +142,13 @@ const SIMPLE_ADJECTIVES = [
 
 const SIMPLE_VERBS = [
   'Disrupts', 'Scales', 'Pivots', 'Ships', 'Deploys',
-  'Transforms', 'Innovates', 'Synergizes', 'Monetizes', 'Delivers',
+  'Transforms', 'Innovates', 'Monetizes', 'Delivers',
   'Compounds', 'Transcends', 'Converts', 'Elevates', 'Resonates',
 ] as const
 
 const ADVERB_PHRASES = [
   'At Scale', 'Going Forward', 'In The Cloud', 'From Day One',
-  'By Design', 'With Synergy', 'Through Innovation', 'Across Paradigms',
+  'By Design', 'Through Innovation', 'Across Paradigms',
   'In Real-Time', 'Per Our Last Meeting', 'On The Blockchain',
   'Via Neural Networks', 'Using AI', 'For Stakeholders',
   'Before Q4', 'After The Pivot', 'Beyond The Paradigm',
@@ -138,7 +158,9 @@ const ADVERB_PHRASES = [
   'Ahead Of Schedule', 'With Full Alignment', 'On A Go-Forward Basis',
   'Per The Roadmap', 'Outside The Box', 'Against All Benchmarks',
   'Through The Funnel', 'Across All Verticals', 'End-To-End',
-  'With Conviction', 'Quarter Over Quarter',
+  'With Conviction', 'Quarter Over Quarter', 'With Synergy',
+  'Per The Governance Framework', 'With Board Approval',
+  'Across All Stakeholder Groups', 'With Full Transparency',
 ] as const
 
 const NUMBERS = [
@@ -163,7 +185,6 @@ const SUBTITLE_TEMPLATES: SubtitleFn[] = [
   () => 'ISO 9001 Certified Excellence',
   () => 'Trusted by Fortune 500 Brands',
   (rng) => `${pick(VERBS_GERUND, rng)} Since 2019`,
-  () => 'Award-Winning Synergy',
   (rng) => `From ${pick(NOUNS, rng)} To ${pick(NOUNS, rng)}`,
   (rng) => `${pick(NOUNS, rng)} Meets ${pick(NOUNS, rng)}`,
   () => 'Per Our Last Alignment Session',
@@ -174,7 +195,7 @@ const SUBTITLE_TEMPLATES: SubtitleFn[] = [
   (rng) => `${pick(ADJECTIVES, rng)} By Design`,
   (rng) => `${pick(VERBS_GERUND, rng)} The Future`,
   () => 'Taking This Offline Since 2019',
-  () => 'Proactive Synergy Optimization',
+  () => 'Proactive Stakeholder Optimization',
   (rng) => `A ${pick(ADJECTIVES, rng)} ${pick(subNames, rng)} Product`,
   () => 'Please Hold For Alignment',
   (rng) => `${pick(NOUNS, rng)}-First. Always.`,
@@ -191,6 +212,11 @@ const SUBTITLE_TEMPLATES: SubtitleFn[] = [
   (rng) => `${pick(ADJECTIVES, rng)} Infrastructure At Scale`,
   () => 'Where Strategy Meets Execution',
   () => 'From Insight To Impact',
+  () => 'Stakeholder-Approved Since Day One',
+  () => 'Governance-First By Design',
+  (rng) => `${pick(ADJECTIVES, rng)} Stakeholder Engagement`,
+  () => 'Board-Certified Excellence',
+  () => 'Maximizing Stakeholder Value',
 ]
 
 // ── Slogan Templates ────────────────────────────────────────────────
