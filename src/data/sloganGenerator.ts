@@ -20,7 +20,7 @@ function pick<T>(arr: readonly T[], rng: () => number): T {
 function hasRepeatedRoot(text: string): boolean {
   const words = text.toLowerCase().replace(/[^a-z\s]/g, '').split(/\s+/)
   const roots = words.map((w) =>
-    w.replace(/(izing|ising|ating|ting|ing|ized|ised|ated|ify|ize|ise|ed|ly|ment|tion)$/, ''),
+    w.replace(/(ative|itive|izing|ising|ating|ting|ing|ized|ised|ated|ify|ize|ise|ous|ive|able|ible|ful|less|ness|ment|tion|sion|ed|er|ly|al)$/, ''),
   )
   const seen = new Set<string>()
   for (const root of roots) {
