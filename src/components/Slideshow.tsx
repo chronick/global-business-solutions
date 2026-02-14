@@ -1,14 +1,36 @@
 import { useState, useEffect, useRef } from 'react'
 import {
-  tickerItems,
+  tickerItems as rawTickerItems,
   IMAGE_COUNT,
-  KEN_BURNS_VARIANTS,
-  GRADIENT_OVERLAYS,
-  subsidiaries,
-  SLIDE_LAYOUTS,
-  TEXT_ENTRANCES,
-  CORPORATE_STATS,
+  KEN_BURNS_VARIANTS as rawKB,
+  GRADIENT_OVERLAYS as rawGradients,
+  subsidiaries as rawSubs,
+  SLIDE_LAYOUTS as rawLayouts,
+  TEXT_ENTRANCES as rawEntrances,
+  CORPORATE_STATS as rawStats,
 } from '../data/content'
+
+/** Fisher-Yates shuffle (non-mutating) */
+function shuffle<T>(arr: readonly T[]): T[] {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+// Shuffle everything at module load so each reload feels fresh
+const shuffledImageIndices = shuffle(Array.from({ length: IMAGE_COUNT }, (_, i) => i + 1))
+const shuffledKB = shuffle(rawKB)
+const shuffledGradients = shuffle(rawGradients)
+const shuffledLayouts = shuffle(rawLayouts)
+const shuffledEntrances = shuffle(rawEntrances)
+const shuffledStats = shuffle(rawStats)
+const tickerItems = shuffle(rawTickerItems)
+// Keep BrightPath (index 0) as umbrella; shuffle the rest for featured subsidiary
+const umbrellaSub = rawSubs[0]
+const shuffledFeaturedSubs = shuffle(rawSubs.slice(1))
 import { useGeneratedSlogans } from '../hooks/useGeneratedSlogans'
 
 function seededRandom(seed: number): () => number {
@@ -168,24 +190,24 @@ export function Slideshow() {
 
   // Current slogan cycles through ever-growing pool
   const slogan = slogans[currentIndex % slogans.length]
-  // Image cycles through generated images
-  const imageNum = (currentIndex % IMAGE_COUNT) + 1
+  // Image cycles through shuffled image indices
+  const imageNum = shuffledImageIndices[currentIndex % shuffledImageIndices.length]
   const imageSrc = `${import.meta.env.BASE_URL}images/slide-${imageNum}.webp`
   // Ken Burns variant per slide
-  const kbClass = KEN_BURNS_VARIANTS[currentIndex % KEN_BURNS_VARIANTS.length]
+  const kbClass = shuffledKB[currentIndex % shuffledKB.length]
   // Gradient overlay for text readability
-  const overlay = GRADIENT_OVERLAYS[currentIndex % GRADIENT_OVERLAYS.length]
+  const overlay = shuffledGradients[currentIndex % shuffledGradients.length]
   // Bokeh
   const bokeh = generateBokeh(currentIndex)
   // Ticker
   const tickerText = tickerItems.join('   \u00b7   ')
 
   // Layout cycling
-  const layout = SLIDE_LAYOUTS[currentIndex % SLIDE_LAYOUTS.length]
+  const layout = shuffledLayouts[currentIndex % shuffledLayouts.length]
   const layoutClass = layout === 'centered' ? '' : `layout-${layout}`
 
   // Entrance animation cycling
-  const entrance = TEXT_ENTRANCES[currentIndex % TEXT_ENTRANCES.length]
+  const entrance = shuffledEntrances[currentIndex % shuffledEntrances.length]
   const entranceClass = entrance === 'fade-blur-up' ? '' : `entrance-${entrance}`
 
   // Panel transition: cycle through types
@@ -204,7 +226,7 @@ export function Slideshow() {
 
   // Stat counter: every 8th slide
   const isStatSlide = currentIndex % 8 === 0 && currentIndex > 0
-  const stat = CORPORATE_STATS[Math.floor(currentIndex / 8) % CORPORATE_STATS.length]
+  const stat = shuffledStats[Math.floor(currentIndex / 8) % shuffledStats.length]
 
   // Parallax depth elements
   const parallaxItems = generateParallax(currentIndex)
@@ -212,12 +234,11 @@ export function Slideshow() {
   // Presentation layout alternates photo side
   const photoLeftClass = layout === 'presentation' && currentIndex % 2 === 1 ? 'photo-left' : ''
 
-  // Featured subsidiary: rotates through indices 1-15 (non-BrightPath)
-  const featuredSub = subsidiaries[1 + (currentIndex % (subsidiaries.length - 1))]
+  // Featured subsidiary: rotates through shuffled non-BrightPath subs
+  const featuredSub = shuffledFeaturedSubs[currentIndex % shuffledFeaturedSubs.length]
   const featuredLogoSrc = `${import.meta.env.BASE_URL}images/${featuredSub.logo}`
 
-  // Umbrella badge: always BrightPath (index 0)
-  const umbrellaSub = subsidiaries[0]
+  // Umbrella badge: always BrightPath
   const umbrellaLogoSrc = `${import.meta.env.BASE_URL}images/${umbrellaSub.logo}`
 
   // Build slide class name
