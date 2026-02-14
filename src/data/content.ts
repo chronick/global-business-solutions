@@ -124,9 +124,30 @@ export const staticSlogans: SloganData[] = [
   { slogan: "WarmSmile\nLate Payment\nForgiveness*", subtitle: "*Terms And Surcharges Apply" },
   { slogan: "SincereCare\nClinical Trial\nVolunteers Wanted", subtitle: "Generous Compensation Available" },
   { slogan: "Neighborhood Harmony\nSmart City\nIntegration", subtitle: "Powered By SafeHarbor Sensors" },
+  // AI Transformation slogans — they clearly have no idea what any of this means
+  { slogan: "AI-Powered\nAI For Your\nAI Strategy", subtitle: "Artificial Intelligence Intelligence" },
+  { slogan: "Our Neural Networks\nHave Neural\nNetworks", subtitle: "Deep Learning Goes Deeper" },
+  { slogan: "Machine Learning\nTo Machine Learn\nBetter", subtitle: "Recursive Intelligence Engine" },
+  { slogan: "Prompt Engineering\nOur Way To\nThe Future", subtitle: "We Asked ChatGPT To Write This" },
+  { slogan: "Large Language\nModels For\nSmall Talk", subtitle: "Enterprise Conversational Synergy" },
+  { slogan: "We Put AI\nIn Your AI\nSo You Can AI", subtitle: "Powered By CloudKind Data Cooperative" },
+  { slogan: "Responsible AI\nIrresponsible\nGrowth", subtitle: "Ethics Board Meets Quarterly" },
+  { slogan: "Digital Twin\nOf Your\nDigital Twin", subtitle: "Metaverse-Ready Enterprise Solutions" },
+  { slogan: "Generative AI\nGenerating\nGenerative AI", subtitle: "It's AI All The Way Down" },
+  { slogan: "Our Chatbot\nPassed The\nTuring Test*", subtitle: "*Against Our Other Chatbot" },
+  { slogan: "Transformers\nAttention\nMechanism\nSynergy", subtitle: "We Don't Know What This Means Either" },
+  { slogan: "AI Governance\nFramework\nDeployed", subtitle: "ClearConscience Certified" },
+  { slogan: "Agentic AI\nWorkflows\nUnleashed", subtitle: "The Agents Are Running The Company Now" },
+  { slogan: "RAG Pipeline\nTo Nowhere\nOptimized", subtitle: "Retrieval Augmented Synergy" },
+  { slogan: "Fine-Tuning\nOur Fine-Tuning\nProcess", subtitle: "OmniSolve AI Labs" },
+  { slogan: "AI Transformation\nComplete*", subtitle: "*We Changed The Logo And Added A Chatbot" },
+  { slogan: "From Predictive\nTo Prescriptive\nTo Expensive", subtitle: "AI Analytics Journey" },
+  { slogan: "Copilot For\nYour Copilot's\nCopilot", subtitle: "Stack Overflow Is Still Open In Another Tab" },
+  { slogan: "Zero-Shot\nLearning\nZero Understanding", subtitle: "But The Dashboard Looks Amazing" },
+  { slogan: "Hallucination-Free*\nAI Solutions", subtitle: "*Results May Vary. Not Financial Advice." },
 ]
 
-export const IMAGE_COUNT = 16
+export const IMAGE_COUNT = 28
 
 export const KEN_BURNS_VARIANTS = [
   'kb-zoom-in',
@@ -177,6 +198,12 @@ export const loadingMessages = [
   "Maximizing free cash flow throughput...",
   "Synchronizing multi-region supply nodes...",
   "Inflating total addressable market estimates...",
+  // AI loading messages
+  "Training the model on our mission statement...",
+  "Hallucinating quarterly projections...",
+  "Fine-tuning the synergy parameters...",
+  "Deploying responsible AI irresponsibly...",
+  "Generating AI-generated AI strategy...",
 ]
 
 export const tickerItems = [
@@ -215,7 +242,14 @@ export const tickerItems = [
   "ETRST \u25b2 145.67 (+223%)",
   "WRMSM \u25b2 234.89 (+445%)",
   "SNCR \u25b2 378.12 (+567%)",
-  "NBHD \u25b2 192.34 (+298%)",
+  "NBHD ▲ 192.34 (+298%)",
+  // AI tickers
+  "AIBZZ ▲ 9999.99 (+∞%)",
+  "LLMCO ▲ 420.69 (+8000%)",
+  "GPUGO ▲ 1337.42 (+∞%)",
+  "TRNFM ▲ 888.88 (+4200%)",
+  "AGNTS ▲ 567.89 (+∞%)",
+  "NRLNT ▲ 2048.00 (+1024%)",
 ]
 
 export interface Subsidiary {
@@ -242,4 +276,32 @@ export const subsidiaries: Subsidiary[] = [
   { id: 'warmsmile', name: 'WarmSmile Utilities', tagline: 'Customer-first billing innovations', logo: 'logos/warmsmile.png' },
   { id: 'sincerecare', name: 'SincereCare Life Sciences', tagline: 'Wellness programs, pharmaceuticals, and PR-friendly trials', logo: 'logos/sincerecare.png' },
   { id: 'neighborhoodharmony', name: 'Neighborhood Harmony Security', tagline: 'Community patrols and de-escalation services', logo: 'logos/neighborhoodharmony.png' },
+]
+
+export const SLIDE_LAYOUTS = [
+  'centered', 'left-text', 'right-text',
+  'bottom-left', 'bottom-right', 'presentation',
+] as const
+
+export const TEXT_ENTRANCES = [
+  'fade-blur-up', 'slide-from-left', 'slide-from-right',
+  'scale-up', 'typewriter', 'wipe-reveal',
+] as const
+
+export interface CorporateStat {
+  value: string
+  label: string
+}
+
+export const CORPORATE_STATS: CorporateStat[] = [
+  { value: '$4.2B', label: 'Annual Revenue' },
+  { value: '150+', label: 'Countries Served' },
+  { value: '12,847', label: 'Synergies Achieved' },
+  { value: '99.7%', label: 'Stakeholder Alignment' },
+  { value: '47', label: 'Subsidiaries Acquired This Quarter' },
+  { value: '1,337', label: 'Paradigms Shifted' },
+  { value: '420%', label: 'YoY Synergy Increase' },
+  { value: '∞', label: 'AI Models Deployed' },
+  { value: '0', label: 'Employees Who Understand The AI Strategy' },
+  { value: '10M+', label: 'Training Tokens Consumed' },
 ]
