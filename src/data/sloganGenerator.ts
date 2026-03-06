@@ -50,6 +50,11 @@ const VERBS_GERUND = [
   'Activating', 'Calibrating', 'Provisioning', 'Normalizing', 'Synergizing',
   'De-Risking', 'Facilitating', 'Prioritizing', 'Onshoring',
   'Right-Channeling', 'Retaining', 'Engaging', 'Matricizing',
+  'Depreciating', 'Amortizing', 'Greenwashing', 'Sunsetting',
+  'Re-Platforming', 'Dogfooding', 'Sanity-Checking', 'Stress-Testing',
+  'Load-Balancing', 'Onshoring', 'Nearshoring', 'Offloading',
+  'Quarterbacking', 'Spearheading', 'Championing', 'Shepherding',
+  'Rubber-Stamping', 'Fast-Tracking', 'Greenfielding', 'Backfilling',
 ] as const
 
 const VERBS_IMPERATIVE = [
@@ -65,6 +70,9 @@ const VERBS_IMPERATIVE = [
   'Normalize', 'Unpack', 'Circle Back', 'Deep Dive', 'Double-Click',
   'Move The Needle', 'Synergize', 'De-Risk', 'Facilitate', 'Prioritize',
   'Engage', 'Retain', 'Onshore',
+  'Depreciate', 'Amortize', 'Stress-Test', 'Quarterback',
+  'Spearhead', 'Champion', 'Shepherd', 'Fast-Track',
+  'Greenfield', 'Backfill', 'Dogfood', 'Rubber-Stamp',
 ] as const
 
 const VERBS_PAST = [
@@ -78,6 +86,9 @@ const VERBS_PAST = [
   'Re-Imagined', 'Unlocked', 'Amplified', 'Consolidated', 'Activated',
   'Calibrated', 'Provisioned', 'Normalized', 'Synergized', 'De-Risked',
   'Facilitated', 'Prioritized', 'Engaged', 'Retained',
+  'Deprecated', 'Amortized', 'Stress-Tested', 'Quarterbanked',
+  'Spearheaded', 'Championed', 'Shepherded', 'Fast-Tracked',
+  'Greenfielded', 'Backfilled', 'Dogfooded', 'Rubber-Stamped',
 ] as const
 
 const NOUNS = [
@@ -111,6 +122,19 @@ const NOUNS = [
   'Board Oversight', 'Fiduciary Duty', 'Accountability Framework',
   'Risk Appetite', 'Compliance Posture', 'Audit Trail',
   'Materiality Assessment', 'ESG Commitments',
+  // Content Pack 2 nouns
+  'Carbon Offsets', 'Net Zero Pledge', 'Scope 3 Emissions',
+  'Cookie Consent', 'Dark Patterns', 'Mandatory Workshop',
+  'Open Floor Plan', 'Nap Pod', 'Ping Pong Table',
+  'Innovation Lab', 'Culture Deck', 'Wellness Newsletter',
+  'Per Diem', 'Town Hall', 'All-Hands', 'Skip-Level',
+  'Reorg', 'Pivot Table', 'Slide Deck', 'Parking Lot',
+  'Boil The Ocean', 'Sacred Cow', 'Rubber Stamp',
+  'Golden Parachute', 'Glass Cliff', 'Ivory Tower',
+  'Thought Shower', 'Brain Dump', 'Knowledge Transfer',
+  'Exit Interview', 'Stay Interview', 'Pulse Survey',
+  'Vendor Lock-In', 'Technical Debt', 'Feature Flag',
+  'Canary Deploy', 'Dark Launch', 'Kill Switch',
 ] as const
 
 const ADJECTIVES = [
@@ -131,6 +155,13 @@ const ADJECTIVES = [
   'Board-Approved', 'Governance-First', 'Risk-Adjusted',
   'Audit-Ready', 'Fiduciary-Grade', 'ESG-Compliant',
   'Stakeholder-Centric', 'Change-Ready', 'Culture-Driven',
+  // Content Pack 2 adjectives
+  'Self-Disrupting', 'Platform-Agnostic', 'Vendor-Specific',
+  'Greenwash-Free', 'Meeting-Optional', 'Snack-Deprived',
+  'Badge-Required', 'Retreat-Funded', 'Consultant-Approved',
+  'Slide-Deck-Ready', 'Newsletter-Worthy', 'Reorg-Proof',
+  'Pivot-Friendly', 'Acquisition-Ready', 'Sunset-Eligible',
+  'Compliance-Adjacent', 'Metric-Rich', 'Feedback-Resistant',
 ] as const
 
 const SIMPLE_ADJECTIVES = [
@@ -138,12 +169,15 @@ const SIMPLE_ADJECTIVES = [
   'Fast', 'Seamless', 'Elegant', 'Dynamic', 'Innovative',
   'Visionary', 'Relentless', 'Disruptive', 'Transformative',
   'Unstoppable', 'Pivotal', 'Strategic', 'Resilient', 'Precise',
+  'Mandatory', 'Transparent', 'Authentic', 'Organic', 'Curated',
+  'Bespoke', 'Artisanal', 'Premium', 'Intentional', 'Mindful',
 ] as const
 
 const SIMPLE_VERBS = [
   'Disrupts', 'Scales', 'Pivots', 'Ships', 'Deploys',
   'Transforms', 'Innovates', 'Monetizes', 'Delivers',
   'Compounds', 'Transcends', 'Converts', 'Elevates', 'Resonates',
+  'Deprecates', 'Sunsets', 'Amortizes', 'Disrupts Again', 'Recurses',
 ] as const
 
 const ADVERB_PHRASES = [
@@ -161,6 +195,13 @@ const ADVERB_PHRASES = [
   'With Conviction', 'Quarter Over Quarter', 'With Synergy',
   'Per The Governance Framework', 'With Board Approval',
   'Across All Stakeholder Groups', 'With Full Transparency',
+  // Content Pack 2 adverbs
+  'Without Consent', 'During The Reorg', 'After The Layoffs',
+  'Before The Audit', 'Upon Reflection', 'Per The NDA',
+  'Behind The Paywall', 'Inside The Walled Garden',
+  'On Company Time', 'Off The Record', 'Between Meetings',
+  'During Mercury Retrograde', 'Post-Acquisition',
+  'Pre-Revenue', 'Mid-Pivot', 'Through The Dashboard',
 ] as const
 
 const NUMBERS = [
@@ -217,6 +258,26 @@ const SUBTITLE_TEMPLATES: SubtitleFn[] = [
   (rng) => `${pick(ADJECTIVES, rng)} Stakeholder Engagement`,
   () => 'Board-Certified Excellence',
   () => 'Maximizing Stakeholder Value',
+  // Content Pack 2 subtitle templates
+  () => 'Manager Approval Required',
+  () => 'Attendance Mandatory',
+  (rng) => `${pick(ADJECTIVES, rng)} By Default`,
+  () => 'Results: Aspirational',
+  () => 'Terms And Surcharges Apply',
+  (rng) => `${pick(VERBS_PAST, rng)} Without Consent`,
+  () => 'Catering Budget: $4.2M',
+  () => 'Product Roadmap: Unchanged',
+  () => 'SLA: Aspirational',
+  (rng) => `${pick(subNames, rng)} Mandatory Upgrade`,
+  () => 'Contract Terms: Binding',
+  () => 'Migration Path: One-Way',
+  () => 'Usage Tracking Enabled',
+  () => 'Auto-Renewal Enabled By Default',
+  (rng) => `${pick(NUMBERS, rng)} Consultants Onsite`,
+  () => 'Documented Somewhere In Confluence',
+  (rng) => `${pick(ADJECTIVES, rng)} Until The Reorg`,
+  () => 'Appeals Process Not Available',
+  () => 'Feedback Collected And Stored',
 ]
 
 // ── Slogan Templates ────────────────────────────────────────────────
@@ -345,6 +406,37 @@ const SLOGAN_TEMPLATES: SloganFn[] = [
   // 40. Your X, Our Y
   (rng) =>
     `Your ${pick(NOUNS, rng)},\nOur ${pick(NOUNS, rng)},\nOne ${pick(NOUNS, rng)}`,
+  // Content Pack 2 templates
+  // 41. Mandatory announcement
+  (rng) =>
+    `Mandatory\n${pick(NOUNS, rng)}\n${pick(ADVERB_PHRASES, rng)}`,
+  // 42. Disclaimer style
+  (rng) =>
+    `${pick(ADJECTIVES, rng)}\n${pick(NOUNS, rng)}\nResults May Vary`,
+  // 43. The real X was Y
+  (rng) =>
+    `The Real\n${pick(NOUNS, rng)} Was The\n${pick(NOUNS, rng)} We Made`,
+  // 44. Sunset announcement
+  (rng) =>
+    `${pick(VERBS_GERUND, rng)}\n${pick(NOUNS, rng)}\nEffective Immediately`,
+  // 45. Corporate passive voice
+  (rng) =>
+    `${pick(NOUNS, rng)}\nHas Been\n${pick(VERBS_PAST, rng)}`,
+  // 46. Contradiction
+  (rng) =>
+    `${pick(ADJECTIVES, rng)}\nYet\n${pick(ADJECTIVES, rng)}`,
+  // 47. Internal memo style
+  (rng) =>
+    `Re: ${pick(NOUNS, rng)}\nPlease Advise\n${pick(ADVERB_PHRASES, rng)}`,
+  // 48. X is the new Y
+  (rng) =>
+    `${pick(NOUNS, rng)}\nIs The New\n${pick(NOUNS, rng)}`,
+  // 49. Per the X
+  (rng) =>
+    `Per The\n${pick(NOUNS, rng)},\n${pick(VERBS_IMPERATIVE, rng)}`,
+  // 50. Aspirational disclaimer
+  (rng) =>
+    `${pick(ADJECTIVES, rng)}\n${pick(NOUNS, rng)}\n(Aspirational)`,
 ]
 
 // ── Generator ───────────────────────────────────────────────────────
