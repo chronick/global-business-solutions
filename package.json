@@ -10,6 +10,7 @@
     "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
+    "posthog-js": "^1.359.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
